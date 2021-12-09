@@ -255,18 +255,23 @@ func out_number(lines *line, sol *[7]struct{a rune; b uint}) uint {
 }
 
 func part_two(lines *[]line) uint {
+	done := make(chan uint, len(*lines))
 	var sum uint
-	var sol [7]struct{a rune; b uint}
 	for _, l := range *lines {
-		sol = decipher(l.signals)
-		sum += out_number(&l, &sol)
+		go func(l line) {
+			sol := decipher(l.signals)
+			done <- out_number(&l, &sol)
+		}(l)
+	}
+	for i := 0; i < len(*lines); i++ {
+		sum += <-done
 	}
 
 	return sum
 }
 
 func main() {
-	lines := read_values("assets/data.txt")
+	lines := read_values("assets/big-boy.txt")
 	fmt.Println("Part 1: ", part_one(&lines))
 	fmt.Println("Part 2: ", part_two(&lines))
 }
