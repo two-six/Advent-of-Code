@@ -49,7 +49,7 @@ func sumOfTheRiskPoints(grid [][]uint) uint {
 
 	done := make(chan uint, len(grid))
 	for i, l := range grid {
-		go func(i int) {
+		go func(i int, l []uint) {
 			var sum uint
 			for j := 0; j < len(l); j++ {
 				var dir [4]uint
@@ -84,7 +84,7 @@ func sumOfTheRiskPoints(grid [][]uint) uint {
 				}
 			}
 			done <- sum
-		}(i)
+		}(i, l)
 	}
 	var out uint
 	for i := 0; i < len(grid); i++ {
