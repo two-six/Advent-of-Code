@@ -39,7 +39,7 @@ func getGrid(s string) [][]uint {
 	return out
 }
 
-func sumOfTheRiskPointsInLine(grid [][]uint) uint {
+func sumOfTheRiskPoints(grid [][]uint) uint {
 	const (
 		up = iota
 		left
@@ -160,7 +160,7 @@ func multOfTheBasins(grid *[][]uint) uint {
 }
 
 func partOne(grid *[][]uint) uint {
-	return sumOfTheRiskPointsInLine(*grid)
+	return sumOfTheRiskPoints(*grid)
 }
 
 func partTwo(grid *[][]uint) uint {
@@ -168,7 +168,7 @@ func partTwo(grid *[][]uint) uint {
 }
 
 func main() {
-	grid := getGrid("assets/big-boy.txt")
+	grid := getGrid("assets/data.txt")
 	fmt.Println(partOne(&grid))
 	fmt.Println(partTwo(&grid))
 }
