@@ -59,13 +59,21 @@ func read_values(s string) []line {
 }
 
 func part_one(lines *[]line) uint {
+	done := make(chan uint, len(*lines))
 	var sum uint
 	for _, l := range *lines {
-		for _, el := range l.output {
-			if (len(el) >= 2 && len(el) <= 4) || len(el) == 7 {
-				sum++
+		go func(l line) {
+			var s uint
+			for _, el := range l.output {
+				if (len(el) >= 2 && len(el) <= 4) || len(el) == 7 {
+					s++
+				}
 			}
-		}
+			done <- s
+		}(l)
+	}
+	for i := 0; i < len(*lines); i++ {
+		sum += <-done
 	}
 	return sum
 }
