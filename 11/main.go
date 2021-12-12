@@ -121,7 +121,6 @@ func partOne(g *[10][10]int) uint {
 			return uint(i+1)
 		}
 	}
-	return 0
 }
 
 func main() {
