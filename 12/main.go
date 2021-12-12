@@ -32,11 +32,11 @@ func readPaths(s string) map[string][]string {
 	return out
 }
 
-func findPath(s string, p map[string][]string, vsc map[string]uint) uint {
+func findPath(s string, p *map[string][]string, vsc map[string]uint, partOne bool) uint {
 	if s == "start" {
 		var out uint
-		for _, el := range p[s] {
-			out += findPath(el, p, vsc)
+		for _, el := range (*p)[s] {
+			out += findPath(el, p, vsc, partOne)
 		}
 		return out
 	} else if s == "end" {
@@ -49,6 +49,9 @@ func findPath(s string, p map[string][]string, vsc map[string]uint) uint {
 		if IsLowerCase(s) {
 			copyVSC[s]++
 			if copyVSC[s] == 2 {
+				if partOne {
+					return 0
+				}
 				for k, el := range copyVSC {
 					if k != s && el > 1 {
 						return 0
@@ -59,9 +62,9 @@ func findPath(s string, p map[string][]string, vsc map[string]uint) uint {
 			}
 		}
 		var out uint
-		for _, el := range p[s] {
+		for _, el := range (*p)[s] {
 			if el != "start" {
-				out += findPath(el, p, copyVSC)
+				out += findPath(el, p, copyVSC, partOne)
 			}
 		}
 		return out
@@ -69,10 +72,15 @@ func findPath(s string, p map[string][]string, vsc map[string]uint) uint {
 }
 
 func partOne(p *map[string][]string) uint {
-	return findPath("start", *p, make(map[string]uint))
+	return findPath("start", p, make(map[string]uint), true)
+}
+
+func partTwo(p *map[string][]string) uint {
+	return findPath("start", p, make(map[string]uint), false)
 }
 
 func main() {
 	paths := readPaths("assets/data.txt")
-	fmt.Println(partOne(&paths))
+	fmt.Println("Silver: ", partOne(&paths))
+	fmt.Println("Gold: ", partTwo(&paths))
 }
