@@ -1,6 +1,12 @@
 package main
 
-import ("fmt"; "os"; "bufio"; "strconv"; "strings")
+import (
+	"fmt"
+	"os"
+	"bufio"
+	"strconv"
+	"strings"
+)
 
 func check(e error) {
 	if e != nil {
