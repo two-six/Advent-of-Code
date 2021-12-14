@@ -18,6 +18,7 @@ func readData(s string) [9]uint {
 	var out [9]uint
 	file, err := os.Open(s)
 	check(err)
+	defer file.Close()
 	scanner := bufio.NewScanner(file)
 	scanner.Split(bufio.ScanLines)
 	scanner.Scan()
